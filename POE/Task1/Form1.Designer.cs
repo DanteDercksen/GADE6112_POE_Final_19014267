@@ -32,6 +32,7 @@
             this.lblPlayerStats = new System.Windows.Forms.Label();
             this.lblBattleInfo = new System.Windows.Forms.Label();
             this.lblControls = new System.Windows.Forms.Label();
+            this.lblShop = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // lblDisplay
@@ -49,6 +50,7 @@
             // lblPlayerStats
             // 
             this.lblPlayerStats.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblPlayerStats.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblPlayerStats.Location = new System.Drawing.Point(280, 9);
             this.lblPlayerStats.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblPlayerStats.Name = "lblPlayerStats";
@@ -60,10 +62,11 @@
             // lblBattleInfo
             // 
             this.lblBattleInfo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblBattleInfo.Location = new System.Drawing.Point(280, 176);
+            this.lblBattleInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblBattleInfo.Location = new System.Drawing.Point(450, 9);
             this.lblBattleInfo.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblBattleInfo.Name = "lblBattleInfo";
-            this.lblBattleInfo.Size = new System.Drawing.Size(155, 160);
+            this.lblBattleInfo.Size = new System.Drawing.Size(155, 327);
             this.lblBattleInfo.TabIndex = 6;
             this.lblBattleInfo.Text = "<<BATTLE INFO GOES HERE>>";
             this.lblBattleInfo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -71,19 +74,33 @@
             // lblControls
             // 
             this.lblControls.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblControls.Location = new System.Drawing.Point(449, 9);
+            this.lblControls.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblControls.Location = new System.Drawing.Point(618, 9);
             this.lblControls.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblControls.Name = "lblControls";
             this.lblControls.Size = new System.Drawing.Size(155, 327);
             this.lblControls.TabIndex = 7;
             this.lblControls.Text = "<<CONTROLS GO HERE>>";
-            this.lblControls.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblControls.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // lblShop
+            // 
+            this.lblShop.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblShop.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblShop.Location = new System.Drawing.Point(280, 180);
+            this.lblShop.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblShop.Name = "lblShop";
+            this.lblShop.Size = new System.Drawing.Size(155, 156);
+            this.lblShop.TabIndex = 8;
+            this.lblShop.Text = "<<SHOP GOES HERE>>";
+            this.lblShop.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // frmGameMap
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(627, 352);
+            this.ClientSize = new System.Drawing.Size(782, 344);
+            this.Controls.Add(this.lblShop);
             this.Controls.Add(this.lblControls);
             this.Controls.Add(this.lblBattleInfo);
             this.Controls.Add(this.lblPlayerStats);
@@ -103,6 +120,7 @@
         private System.Windows.Forms.Label lblPlayerStats;
         private System.Windows.Forms.Label lblBattleInfo;
         private System.Windows.Forms.Label lblControls;
+        private System.Windows.Forms.Label lblShop;
     }
 }
 

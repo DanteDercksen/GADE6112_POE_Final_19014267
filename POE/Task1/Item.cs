@@ -6,8 +6,6 @@ using System.Threading.Tasks;
 
 namespace Task1
 {
-    //SAFE
-    
     [Serializable]
     abstract public class Item : Tile
     {

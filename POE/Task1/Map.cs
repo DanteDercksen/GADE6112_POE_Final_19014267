@@ -7,7 +7,6 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
-using System.Diagnostics;
 
 namespace Task1
 {
@@ -38,9 +37,8 @@ namespace Task1
         
         Random rand = new Random();
 
-        public Map(int minHeight, int maxHeight, int minWidth, int maxWidth, int numEnemies, int numGold)
+        public Map(int minHeight, int maxHeight, int minWidth, int maxWidth, int numEnemies, int numGold, int numWeapons)
         {
-            Debug.WriteLine(numEnemies);
 
             height = rand.Next(minHeight, maxHeight + 1);
             width = rand.Next(minWidth, maxWidth + 1);
@@ -48,9 +46,7 @@ namespace Task1
             gameMap = new Tile[width, height];
             enemies = new Enemy[numEnemies];
 
-            Debug.WriteLine(enemies.Length);
-
-            items = new Item[numGold];
+            items = new Item[numGold + numWeapons];
 
             InitializeMap();
 
@@ -63,7 +59,15 @@ namespace Task1
 
             for(int i = 0; i < items.Length; i++)
             {
-                items[i] = (Item)Create(TileType.Gold);
+                int w = rand.Next(2);
+                if (w == 0)
+                {
+                    items[i] = (Item)Create(TileType.Weapon);
+                }
+                else
+                {
+                    items[i] = (Item)Create(TileType.Gold);
+                }
             }
 
             UpdateVision();
@@ -134,7 +138,6 @@ namespace Task1
               X = rand.Next(1, width);
               Y = rand.Next(1, height);
             }
-
             if (type == TileType.Hero)
             {
                 gameMap[X, Y] = new Hero(X, Y, 10);
@@ -151,12 +154,40 @@ namespace Task1
                 {
                     gameMap[X, Y] = new Mage(X, Y);
                 }
-
+                else
+                {
+                    gameMap[X, Y] = new Leader(X, Y);
+                }
                 return gameMap[X, Y];
             }
             else if (type == TileType.Gold)
             {
                 gameMap[X, Y] = new Gold(X, Y);
+                return gameMap[X, Y];
+            }
+            else if (type == TileType.Weapon)
+            {
+                int rand1 = rand.Next(0, 4);
+                //Dagger
+                if (rand1 == 0)
+                {
+                    gameMap[X, Y] = new MeleeWeapon(MeleeTypes.DAGGER, X, Y);
+                }
+                //Longsword
+                else if (rand1 == 1)
+                {
+                    gameMap[X, Y] = new MeleeWeapon(MeleeTypes.LONGSWORD, X, Y);
+                }
+                //Rifle
+                else if (rand1 == 2)
+                {
+                    gameMap[X, Y] = new RangedWeapon(RangedTypes.RIFLE, X, Y);
+                }
+                //Longbow
+                else
+                {
+                    gameMap[X, Y] = new RangedWeapon(RangedTypes.LONGBOW, X, Y);
+                }
                 return gameMap[X, Y];
             }
             else if (type == TileType.EmptyTile)
@@ -224,7 +255,6 @@ namespace Task1
                 return "THE HERO DIED!\n" +
                     "YOU LOSE";
             }
-
             for (int y = 0; y < height; y++)
             {
                 for(int x = 0; x < width; x++)
@@ -235,7 +265,6 @@ namespace Task1
                         mapString += 'H';
                         continue;
                     }
-
                     if (currentType == TileType.Enemy)
                     {
                         Enemy enemy = (Enemy)gameMap[x, y];
@@ -253,9 +282,12 @@ namespace Task1
                             {
                                 mapString += 'M';
                             }
+                            else if (enemy is Leader)
+                            {
+                                mapString += 'L';
+                            }
                         }
                     }
-
                     else if(currentType == TileType.Item)
                     {
                         if(gameMap[x, y]is Gold)
@@ -265,7 +297,42 @@ namespace Task1
                         }
 
                     }
-                   
+                    else if (currentType == TileType.Weapon)
+                    {
+                        if (gameMap[x, y] is MeleeWeapon)
+                        {
+                            MeleeWeapon meleeWeapon = (MeleeWeapon)gameMap[x, y];
+                            if (meleeWeapon.ToString() == "Dagger")
+                            {
+                                mapString += 'D';
+                            }
+                            else if (meleeWeapon.ToString() == "Longsword")
+                            {
+                                mapString += 'S';
+                            }
+                            else
+                            {
+                                mapString += '0';
+                            }
+
+                        }
+                        else if (gameMap[x, y] is RangedWeapon)
+                        {
+                            RangedWeapon rangedWeapon = (RangedWeapon)gameMap[x, y];
+                            if (rangedWeapon.ToString() == "Rifle")
+                            {
+                                mapString += 'R';
+                            }
+                            else if (rangedWeapon.ToString() == "Longbow")
+                            {
+                                mapString += 'B';
+                            }
+                            else
+                            {
+                                mapString += '0';
+                            }
+                        }
+                    }
                     else if (currentType == TileType.EmptyTile)
                     {
                         mapString += '.';

@@ -15,7 +15,7 @@ namespace Task1
     {
         const string SERIALIZED_FILE_NAME = "Game.txt";
         public Map mapVariable;
-
+        public Shop shop;
         public string View
         {
             get { return mapVariable.ToString(); }
@@ -27,7 +27,8 @@ namespace Task1
         }
         public GameEngine()
         {
-            mapVariable = new Map(10, 15, 10, 15, 6, 3);
+            mapVariable = new Map(10, 15, 10, 15, 6, 3, 3);
+            shop = new Shop(mapVariable.Player);
         }
 
         public bool MovePlayer(MovementEnum direction)
@@ -37,6 +38,10 @@ namespace Task1
             mapVariable.Player.Move(allowedMove);
 
             Item item = mapVariable.GetItemAtPosition(mapVariable.Player.X, mapVariable.Player.Y);
+            if (item != null)
+            {
+                mapVariable.Player.PickUp(item);
+            }
 
             mapVariable.Update();
 
@@ -62,6 +67,12 @@ namespace Task1
                 }
 
                 mapVariable.Player.Attack(enemy);
+
+                if (enemy.isDead())
+                {
+                    mapVariable.Player.Purse += enemy.Purse;
+                    enemy.Purse = 0;
+                }
 
                 mapVariable.Update();
 
@@ -110,7 +121,6 @@ namespace Task1
                 mapVariable.Update();
             }
         }
-
         public void EnemyAttacks()
         {
             for (int i = 0; i < mapVariable.Enemies.Length; i++)
@@ -155,15 +165,27 @@ namespace Task1
                                 else
                                 {
                                     mapVariable.Enemies[i].Attack(mapVariable.Enemies[z]);
-                                    
+
+                                    if (mapVariable.Enemies[z].isDead())
+                                    {
+                                        mapVariable.Enemies[i].Purse += mapVariable.Enemies[z].Purse;
+                                        mapVariable.Enemies[z].Purse = 0;
+                                    }
                                 }
                             }
                         }
                     }
-                    }
-                    
+                }
+                else if(mapVariable.Enemies[i] is Leader)
                 {
-
+                    if (mapVariable.Enemies[i].isDead())
+                    {
+                        continue;
+                    }
+                    if (mapVariable.Enemies[i].CheckRange(mapVariable.Player))
+                    {
+                        mapVariable.Enemies[i].Attack(mapVariable.Player);
+                    }
                 }
             }
         }

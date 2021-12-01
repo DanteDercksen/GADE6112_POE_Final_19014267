@@ -11,6 +11,13 @@ namespace Task1
     [Serializable]
     public abstract class Character : Tile
     {
+        protected int purse = 0;
+        public int Purse
+        {
+            get { return purse; }
+            set { purse = value; }
+        }
+
         protected int hp;
         public int HP
         {
@@ -31,11 +38,32 @@ namespace Task1
             get { return vision;  }
         }
 
+        protected Weapon weaponObject;
+        public Weapon WeaponObject
+        {
+            get { return weaponObject; }
+            set { weaponObject = value; }
+        }
 
         public Character(int X, int Y, TileType type) : base(X, Y, type)
         {
             vision = new Tile[4];
 
+            if (this is Goblin)
+            {
+                MeleeWeapon g = new MeleeWeapon(MeleeTypes.DAGGER);
+                Equip(g);
+            }
+            else if (this is Leader)
+            {
+                MeleeWeapon l = new MeleeWeapon(MeleeTypes.LONGSWORD);
+                Equip(l);
+            }
+            else if (this is Hero)
+            {
+                MeleeWeapon bh = new MeleeWeapon(MeleeTypes.BARE_HANDS);
+                Equip(bh);
+            }
         }
 
         public virtual void Attack(Character target)
@@ -80,6 +108,26 @@ namespace Task1
         public abstract MovementEnum ReturnMove(MovementEnum move = 0);
 
         public abstract override string ToString();
+
+        public void PickUp(Item i)
+        {
+            if (i is Gold)
+            {
+                Gold n = (Gold)i;
+                purse += n.GoldAmount;
+            }
+            else if (i is Weapon)
+            {
+                Weapon w = (Weapon)i;
+                Equip(w);
+            }
+        }
+
+        private void Equip(Weapon w)
+        {
+            WeaponObject = w;
+            this.damage = w.Damage;
+        }
 
     }
     public enum MovementEnum
